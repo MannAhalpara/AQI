@@ -12,7 +12,6 @@ from sklearn.preprocessing import LabelEncoder
 # Page Setup
 st.set_page_config(page_title="AirVision - AQI Prediction", layout="wide")
 st.title("AirVision: Interactive AQI Prediction & Analysis Dashboard")
-st.markdown("#### Powered by Data Mining + Machine Learning + Streamlit ")
 
 # -------------------------------------------------------
 # Custom CSS for DARK MODE
@@ -173,3 +172,4 @@ elif page == "AQI Prediction":
         st.line_chart(perf_df)
 
         st.markdown(f"**Model R² (from training): ~0.91** - strong prediction consistency.")
+
