@@ -10,9 +10,9 @@ from sklearn.preprocessing import LabelEncoder
 
 # -------------------------------------------------------
 # Page Setup
-st.set_page_config(page_title="AirVision - AQI Prediction", page_icon="🌍", layout="wide")
-st.title("🌆 AirVision: Interactive AQI Prediction & Analysis Dashboard")
-st.markdown("#### Powered by Data Mining + Machine Learning + Streamlit 🚀")
+st.set_page_config(page_title="AirVision - AQI Prediction", layout="wide")
+st.title("AirVision: Interactive AQI Prediction & Analysis Dashboard")
+st.markdown("#### Powered by Data Mining + Machine Learning + Streamlit ")
 
 # -------------------------------------------------------
 # Custom CSS for DARK MODE
@@ -61,10 +61,10 @@ except FileNotFoundError:
 # -------------------------------------------------------
 # Sidebar Navigation
 st.sidebar.header("Explore & Predict")
-page = st.sidebar.radio("Choose Section:", ["📊 Data Exploration", "🤖 AQI Prediction"])
+page = st.sidebar.radio("Choose Section:", ["Data Exploration", "AQI Prediction"])
 
 # -------------------------------------------------------
-if page == "📊 Data Exploration":
+if page == "Data Exploration":
     st.subheader("Explore Air Quality Data")
     tabs = st.tabs(["Trends & Charts", "Heatmap & Distributions", "Top Polluted Cities", "Map View"])
 
@@ -85,7 +85,7 @@ if page == "📊 Data Exploration":
 
     # ----- HEATMAP -----
     with tabs[1]:
-        st.subheader("🌡️ Correlation Heatmap")
+        st.subheader("Correlation Heatmap")
         corr = data.select_dtypes(include=np.number).corr()
         fig, ax = plt.subplots(figsize=(12, 8))
         sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm", linewidths=0.8)
@@ -118,7 +118,7 @@ if page == "📊 Data Exploration":
     st.dataframe(data.sample(n=20, random_state=None).reset_index(drop=True))
 
 # -------------------------------------------------------
-elif page == "🤖 AQI Prediction":
+elif page == "AQI Prediction":
     st.subheader("Predict Air Quality Index (AQI)")
     tabs = st.tabs(["Input & Predict", "Predicted vs Actual"])
 
@@ -150,17 +150,17 @@ elif page == "🤖 AQI Prediction":
         st.metric("Predicted AQI", f"{pred_aqi:.2f}")
 
         if pred_aqi <= 50:
-            st.success("Air Quality: Good 🌿")
+            st.success("Air Quality: Good")
         elif pred_aqi <= 100:
-            st.info("Air Quality: Moderate 🙂")
+            st.info("Air Quality: Moderate")
         elif pred_aqi <= 200:
-            st.warning("Air Quality: Unhealthy for Sensitive Groups 😷")
+            st.warning("Air Quality: Unhealthy for Sensitive Groups")
         else:
-            st.error("Air Quality: Hazardous ☠️")
+            st.error("Air Quality: Hazardous")
 
     # ----- TAB 2: Predicted vs Actual -----
     with tabs[1]:
-        st.markdown("### 🎯 Model Performance: Predicted vs Actual AQI")
+        st.markdown("### Model Performance: Predicted vs Actual AQI")
         sample = data.sample(30, random_state=42)
         sample["City"] = le.transform(sample["City"])
 
@@ -171,4 +171,5 @@ elif page == "🤖 AQI Prediction":
 
         perf_df = pd.DataFrame({'Actual AQI': y_true, 'Predicted AQI': y_pred})
         st.line_chart(perf_df)
-        st.markdown(f"**Model R² (from training): ~0.91** ✅ - strong prediction consistency.")
+
+        st.markdown(f"**Model R² (from training): ~0.91** - strong prediction consistency.")
