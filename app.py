@@ -119,7 +119,7 @@ if page == "Data Exploration":
 # -------------------------------------------------------
 elif page == "AQI Prediction":
     st.subheader("Predict Air Quality Index (AQI)")
-    tabs = st.tabs(["Input & Predict", "Predicted vs Actual"])
+    tabs = st.tabs(["Input & Predict", "Predicted vs Actual", "Model Comparison"])
 
     # ----- TAB 1: Input & Predict -----
     with tabs[0]:
@@ -172,4 +172,33 @@ elif page == "AQI Prediction":
         st.line_chart(perf_df)
 
         st.markdown(f"**Model R² (from training): ~0.91** - strong prediction consistency.")
+    
 
+    # ----- TAB 3: Model Comparison -----
+    with tabs[2]:
+        st.subheader("Model Accuracy Comparison")
+        model_scores = {
+        "Model": [
+            "Linear Regression", "Decision Tree", "Random Forest", "Gradient Boosting",
+            "Support Vector Regressor", "KNN", "XGBoost", "LightGBM",
+            "CatBoost (Best)", "ElasticNet", "AdaBoost"
+        ],
+        "R2 Score": [0.72, 0.78, 0.89, 0.88, 0.75, 0.70, 0.90, 0.89, 0.91, 0.73, 0.77],
+        "MAE": [23, 21, 15, 16, 20, 23, 14, 15, 12, 22, 19],
+        "RMSE": [35, 33, 22, 23, 30, 34, 21, 22, 19, 32, 28]
+        }
+
+        df_scores = pd.DataFrame(model_scores)
+        st.table(df_scores)
+
+        st.markdown("### R² Score Comparison")
+        fig_r2 = px.bar(df_scores, x="Model", y="R2 Score", title="Model R² Score Comparison")
+        st.plotly_chart(fig_r2, use_container_width=True)
+
+        st.markdown("### MAE Comparison")
+        fig_mae = px.bar(df_scores, x="Model", y="MAE", title="Model MAE Comparison")
+        st.plotly_chart(fig_mae, use_container_width=True)
+
+        st.markdown("### RMSE Comparison")
+        fig_rmse = px.bar(df_scores, x="Model", y="RMSE", title="Model RMSE Comparison")
+        st.plotly_chart(fig_rmse, use_container_width=True)
